@@ -1,0 +1,9 @@
+ext{
+    localProperties = new Properties()
+    def localPropertiesFile = new File('local.properties')
+    if(localPropertiesFile.exists()){
+        localPropertiesFile.withReader ('UTF-8'){reader ->
+            localProperties.load(reader)
+        }
+    }
+}

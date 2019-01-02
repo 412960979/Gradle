@@ -9,6 +9,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // BuildConfig里面保存了build.gradle里面生成的信息
         val url = BuildConfig.API_URL
         val name = resources.getString(R.string.name)
     }

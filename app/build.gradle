@@ -9,13 +9,19 @@ android {
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.gradle"
+        // AndroidManifest.xml里面的包名负责R.java文件的包名； 这里的applicationId作为应用安装在手机上的唯一标识，作用于debug和release模式
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // 无论是debug模式还是release模式， 都用debug配置的签名设置
+        signingConfig signingConfigs.debug
     }
-    buildTypes {
+
+    // 构建变体(对应android studio的BuildVariants)
+    buildTypes {//构建类型用来为同一个app或者library配置不同的构建
         debug {
             buildConfigField "String", "API_URL", "\"http://test.example.com/api\""
             buildConfigField "boolean", "LOG_HTTP_CALLS", "true"
@@ -26,6 +32,60 @@ android {
             buildConfigField "String", "API_URL", "\"http://example.com/api\""
             buildConfigField "boolean", "LOG_HTTP_CALLS", "false"
             resValue("string", "name", "gradle正试")
+
+            minifyEnabled true // 是否移除无用的资源
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        staging {
+            applicationIdSuffix ".staging" // com.gradle.staging，安装在手机上的包名
+            versionNameSuffix "-staging"
+            buildConfigField "String", "API_URL", "\"http://staging.example.com/api\""
+        }
+    }
+
+    // 构建变体(对应android studio的BuildVariants)
+    productFlavors {// product flavors用来为同一个app创建不同的版本
+        flavorDimensions("isfree", "channel")
+        free {
+//            applicationId 'com.gradle'
+            dimension "isfree"
+        }
+        paid {
+//            applicationId 'com.gradle.paid'
+            dimension "isfree"
+        }
+        googleplay { dimension "channel" }
+        wandoujia { dimension "channel" }
+    }
+
+    // 过滤构建变体，本例过滤掉了wandoujia渠道的release版本
+    variantFilter { variant ->
+        if (variant.buildType.name.equals('release')) {
+            variant.getFlavors().each() { flavor ->
+                if (flavor.name.equals('wandoujia')) {
+                    variant.setIgnore(true)
+                }
+            }
+        }
+    }
+
+    // 应用签名配置
+    signingConfigs {
+        // 这里只配置debug，release不用配置， 在defaultConfigs里面用debug就行
+        debug {
+            def keyStoreFileKey = "keyStore.file"
+
+            def jksFile = (localProperties as Properties).getProperty(keyStoreFileKey)
+            if (jksFile == null || jksFile == ""){
+                storeFile file('../gradle.jks')// 签名文件路径
+            } else {
+                storeFile file(jksFile)
+            }
+
+            storePassword _storePassword
+            keyAlias _keyAlias
+            keyPassword _keyPassword
         }
     }
 

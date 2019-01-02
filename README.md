@@ -1,4 +1,5 @@
 # Gradle学习笔记  
+https://www.jianshu.com/p/846c376a52d4
 ### 自定义资源  
 resValue("string","app_token","123")  
 resValue("bool","rel","true")  
