@@ -1,5 +1,5 @@
 # Gradle学习笔记  
-## 自定义资源  
+### 自定义资源  
 resValue("string","app_token","123")  
 resValue("bool","rel","true")  
 resValue("integer","num","4")  
@@ -29,3 +29,22 @@ productFlavors{
     }
 }
 ```  
+### sourceSets  
+通过修改SourceSets中的属性，可以指定哪些源文件（或文件夹下的源文件）要被编译，哪些源文件要被排除。Gradle就是通过它实现Java项目的布局定义  
+```  
+android {
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+}
+```  
+[具体使用可以参考这里](https://blog.csdn.net/lbcab/article/details/72771729)
+

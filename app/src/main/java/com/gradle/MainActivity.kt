@@ -10,6 +10,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val url = BuildConfig.API_URL
-        val name = resources.getString(R.string.app_name_test)
+        val name = resources.getString(R.string.name)
     }
 }
