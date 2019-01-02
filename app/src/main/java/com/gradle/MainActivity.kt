@@ -8,5 +8,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val url = BuildConfig.API_URL
+        val name = resources.getString(R.string.app_name_test)
     }
 }

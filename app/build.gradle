@@ -16,9 +16,21 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+
+        debug {
+            buildConfigField "String", "API_URL","\"http://test.example.com/api\""
+            buildConfigField "boolean", "LOG_HTTP_CALLS", "true"
+            resValue("string", "app_name_test", "gradle测试")
+        }
+//        rootProject.ext
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_URL","\"http://example.com/api\""
+            buildConfigField "boolean", "LOG_HTTP_CALLS", "false"
+            resValue("string", "app_name_release", "gradle正试")
         }
     }
 }
