@@ -10,22 +10,22 @@ Log.d("xl",getResources().getInteger(R.integer.num)+"");
 //xml文件中使用
 android:text="@string/app_token"  
 resValue可以在哪里定义  
-(```)  
+```  
 defaultConfig {  
     resValue("string", "test1Value", "1")  
 }
-(```)  
-(```)  
+```  
+```  
 buildTypes {  
     debug {  
         resValue("bool", "test2Value", "true")  
     }
 }  
-(```)  
-(```)  
+```  
+```  
 productFlavors{  
     Flavortest{  
         resValue("integer", "test3Value", "3")
     }
 }
-(```)  
+```  
