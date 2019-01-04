@@ -21,7 +21,7 @@ publishing {
 publishing {
     repositories {
         maven {
-            url uri('../repos')
+            url uri('../repos') // 发不到项目根目录，也可以发布到网络仓库
         }
     }
 }

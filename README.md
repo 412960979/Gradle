@@ -1,5 +1,9 @@
 # Gradle学习笔记  
 https://www.jianshu.com/p/846c376a52d4
+## 项目介绍  
+customplugin项目是插件源码   
+repos是发布到本地的插件仓库  
+其他的配置都在顶级的build和app的build里面  
 ### 自定义资源  
 resValue("string","app_token","123")  
 resValue("bool","rel","true")  
