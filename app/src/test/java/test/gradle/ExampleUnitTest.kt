@@ -1,4 +1,4 @@
-package com.gradle
+package test.gradle
 
 import org.junit.Test
 

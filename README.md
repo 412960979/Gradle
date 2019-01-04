@@ -49,3 +49,6 @@ android {
 ```  
 [具体使用可以参考这里](https://blog.csdn.net/lbcab/article/details/72771729)
 
+### CustomPlugin
+https://www.jianshu.com/p/66b8eafc2d04
+

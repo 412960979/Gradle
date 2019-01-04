@@ -1,7 +1,9 @@
-package com.gradle
+package test.gradle
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.gradle.BuildConfig
+import com.gradle.R
 
 class MainActivity : AppCompatActivity() {
 

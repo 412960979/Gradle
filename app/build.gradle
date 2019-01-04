@@ -4,6 +4,15 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'MyInfo' // 引入自定义的插件，名称为MyInfo.properties的文件名
+
+// 使用自定义插件里面定义的闭包
+customPlugin{// 对应的task在other里面
+    name = "weining"
+    age = 28
+    address = "广州白云区嘉禾望岗"
+}
+
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
@@ -33,7 +42,12 @@ android {
             buildConfigField "boolean", "LOG_HTTP_CALLS", "false"
             resValue("string", "name", "gradle正试")
 
-            minifyEnabled true // 是否移除无用的资源
+            zipAlignEnabled true // 在打包时需要设置为true，能优化我们的java字节码，提高运行效率
+            // ======== 配置自动压缩资源 ========
+            minifyEnabled = true // 用来开启删除无用代码，比如没有引用到的代码
+            shrinkResources = true // 用来开启删除无用资源，也就是没有被引用的文件
+            // ==================================
+            minifyEnabled true // 是否移除无用的资源, 当你设置minifyEnabled为true后，proguardRelease任务就会执行，并且在构建过程中触发ProGuard。
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
@@ -70,6 +84,23 @@ android {
         }
     }
 
+    // 遍历构建变体(修改生成的apk的文件名)
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName
+            def date = new Date()
+            def formattedDate = date.format('yyyyMMdd')
+            if (variant.buildType.name.equals('release')) {
+                fileName = "${variant.mergedFlavor.versionName}_release_${formattedDate}.apk"
+            } else if (variant.buildType.name.equals('debug')) {
+                fileName = "${variant.mergedFlavor.versionName}_debug_${formattedDate}.apk"
+            } else {
+                fileName = "${variant.mergedFlavor.versionName}_staging_${formattedDate}.apk"
+            }
+            outputFileName = fileName
+        }
+    }
+
     // 应用签名配置
     signingConfigs {
         // 这里只配置debug，release不用配置， 在defaultConfigs里面用debug就行
@@ -93,6 +124,15 @@ android {
         main {
             java.srcDirs += "src/main/kotlin" // 指定kotlin文件夹下面的文件被编译
         }
+    }
+
+    // 在使用Gradle执行release构建时，Lint检查将会执行。Lint是一个静态代码检查工具，
+    // 会标识出你的布局和代码中潜在的问题。在某些情况下，甚至会阻塞构建过程。
+    // 如果你的工程之前没有使用过Lint，并且你想迁移到Gradle中，Lint检查可能会有很多错误。
+    // 为使构建可以进行，你可以通过关闭abortOnError忽略Lint检查，阻止它中断构建。
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 
