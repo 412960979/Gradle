@@ -25,6 +25,17 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        multiDexEnabled true // dex分包
+
+        // dex分包的问题
+        dexOptions {
+            // 保留运行时注解
+            keepRuntimeAnnotatedClasses false
+            // 5.0系统上使用art支持多dex，低版本的dalvik默认先加载主dex，启动时需要的类不在主dex内就会报错ClassNotFoundException，需要设置以下属性
+            preDexLibraries = false
+            // 可能还会遇到其他问题， 以后遇到再解决
+        }
+
         // 无论是debug模式还是release模式， 都用debug配置的签名设置
         signingConfig signingConfigs.debug
     }
@@ -145,4 +156,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    // dex分包
+    implementation 'com.android.support:multidex:1.0.1'
 }

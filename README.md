@@ -1,5 +1,6 @@
 # Gradle学习笔记  
-https://www.jianshu.com/p/846c376a52d4
+[gradle for android开发教程](https://www.jianshu.com/p/846c376a52d4)  
+[build.gradle配置常用的属性列表](https://blog.csdn.net/a568478312/article/details/80076104)  
 ## 项目介绍  
 customplugin项目是插件源码   
 repos是发布到本地的插件仓库  
